@@ -1,0 +1,30 @@
+{
+  "name": "noteai",
+  "productName": "NoteAI",
+  "version": "2.0.0",
+  "description": "A Windows 11 Notepad look-alike that rephrases your writing with one keystroke, powered by the local Claude Code CLI",
+  "keywords": [
+    "notepad",
+    "editor",
+    "electron",
+    "windows",
+    "claude",
+    "claude-code",
+    "rephrase",
+    "writing"
+  ],
+  "main": "src/main.js",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "electron .",
+    "icon": "python scripts/make_icon.py",
+    "install-app": "node scripts/install.js"
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.3.0",
+    "electron": "^44.7.2"
+  }
+}

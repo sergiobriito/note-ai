@@ -1,0 +1,12 @@
+# dependencies and build output
+node_modules/
+dist/
+
+# logs and OS files
+npm-debug.log*
+*.log
+Thumbs.db
+desktop.ini
+
+# Python (scripts/make_icon.py)
+__pycache__/

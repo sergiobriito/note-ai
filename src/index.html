@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: file:;">
+  <title>NoteAI</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Shared gradient for the sparkle icons -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="spark" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#8b5cf6"/>
+        <stop offset=".55" stop-color="#ec4899"/>
+        <stop offset="1" stop-color="#fb923c"/>
+      </linearGradient>
+      <symbol id="i-sparkle" viewBox="0 0 20 20">
+        <path fill="url(#spark)" d="M8.6 2.2c.5 3.6 2.4 5.5 6 6-3.6.5-5.5 2.4-6 6-.5-3.6-2.4-5.5-6-6 3.6-.5 5.5-2.4 6-6z"/>
+        <path fill="url(#spark)" d="M15.4 11.8c.25 1.7 1.1 2.55 2.8 2.8-1.7.25-2.55 1.1-2.8 2.8-.25-1.7-1.1-2.55-2.8-2.8 1.7-.25 2.55-1.1 2.8-2.8z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="titlebar">
+    <img class="app-icon" src="../assets/icon.png" alt="" draggable="false">
+    <div class="tabs" id="tabs" role="tablist"></div>
+    <button class="new-tab icon-btn" id="newTab" title="New tab (Ctrl+N)"><span class="glyph">&#xE710;</span></button>
+  </header>
+
+  <nav class="commandbar">
+    <div class="menus">
+      <button class="menu-btn" data-menu="file">File</button>
+      <button class="menu-btn" data-menu="edit">Edit</button>
+      <button class="menu-btn" data-menu="view">View</button>
+    </div>
+
+    <div class="tools">
+      <div class="split" id="rephraseSplit">
+        <button class="split-main" id="rephraseBtn" title="Rephrase the selection, or the whole note (Ctrl+R)">
+          <svg class="spark-icon"><use href="#i-sparkle"/></svg>
+          <span class="busy-spinner"></span>
+          <span id="rephraseLabel">Rephrase</span>
+          <span class="style-chip" id="styleChip">Improve</span>
+        </button>
+        <button class="split-arrow" id="styleMenuBtn" title="Choose how to rephrase"><span class="glyph">&#xE70D;</span></button>
+      </div>
+      <button class="tool-btn" id="customBtn" title="Rephrase with your own instruction (Ctrl+Shift+R)">
+        <span class="glyph">&#xE70F;</span><span>Custom</span>
+      </button>
+    </div>
+
+    <div class="right-tools">
+      <button class="chip-btn" id="modelBtn" title="Claude model used for rephrasing">
+        <span class="model-dot"></span><span id="modelLabel">Haiku</span><span class="glyph small">&#xE70D;</span>
+      </button>
+      <button class="icon-btn" id="themeBtn" title="Switch light / dark"><span class="glyph" id="themeGlyph">&#xE706;</span></button>
+      <button class="icon-btn" id="settingsBtn" title="Settings"><span class="glyph">&#xE713;</span></button>
+    </div>
+  </nav>
+
+  <main class="editors" id="editors">
+    <div class="progress" id="progress"></div>
+    <div class="highlights" id="highlights" aria-hidden="true"></div>
+    <div class="findbar" id="findbar" hidden>
+      <div class="find-row">
+        <button class="icon-btn small" id="findToggle" title="Toggle replace (Ctrl+H)"><span class="glyph" id="findToggleGlyph">&#xE76C;</span></button>
+        <div class="input-wrap">
+          <input id="findInput" placeholder="Find" spellcheck="false">
+          <span class="find-count" id="findCount"></span>
+        </div>
+        <button class="icon-btn small toggle" id="findCase" title="Match case"><span class="case-glyph">Aa</span></button>
+        <button class="icon-btn small" id="findPrev" title="Previous (Shift+F3)"><span class="glyph">&#xE74A;</span></button>
+        <button class="icon-btn small" id="findNext" title="Next (F3)"><span class="glyph">&#xE74B;</span></button>
+        <button class="icon-btn small" id="findClose" title="Close (Esc)"><span class="glyph">&#xE711;</span></button>
+      </div>
+      <div class="replace-row" id="replaceRow" hidden>
+        <div class="input-wrap"><input id="replaceInput" placeholder="Replace" spellcheck="false"></div>
+        <button class="text-btn" id="replaceOne">Replace</button>
+        <button class="text-btn" id="replaceAll">Replace all</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="statusbar" id="statusbar">
+    <span class="seg" id="stPos">Ln 1, Col 1</span>
+    <span class="seg" id="stChars">0 characters</span>
+    <span class="seg activity" id="stActivity"></span>
+    <span class="spacer"></span>
+    <span class="seg" id="stModel">Claude · haiku</span>
+    <span class="seg" id="stZoom">100%</span>
+    <span class="seg" id="stEol">Windows (CRLF)</span>
+    <span class="seg" id="stEnc">UTF-8</span>
+  </footer>
+
+  <div id="menuLayer"></div>
+  <div id="modalLayer"></div>
+  <script src="renderer.js"></script>
+</body>
+</html>
